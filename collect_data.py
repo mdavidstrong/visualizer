@@ -38,4 +38,4 @@ df['cleaned_date'] = df.apply(lambda row: clean_date(row), axis=1)
 
 # writes dataframe to new aggregate file
 # write code to automatically append the date??
-df.to_excel('new_aggregate_030422.xlsx')
+df.to_excel('aggregate.xlsx')

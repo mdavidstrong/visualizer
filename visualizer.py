@@ -6,6 +6,9 @@ import datetime
 
 #class used to hold dataframes and return various data/subselections
 class cs_stats(object):
+    # list of columns that doesn't include 'index' and 'created on'
+    case_detail_columns = {'Serial Number','Case Number','Case Title','Primary Components','Issue Description','Customer','Dealer','Created By','cleaned_date'}
+
     def __init__(self, frame):
         self.frame = frame
 
@@ -235,7 +238,7 @@ def home(date_type,time,plots,frame):
         with st.expander(f"case titles ( {time} )"):
             st.write(frame['Case Title'])
         with st.expander(f"case details ( {time} )"):
-            st.write(frame)
+            st.write(frame[stat_frame.case_detail_columns])
         
     
     # places gap between col 1 and 3 to serve as a visual division
@@ -256,7 +259,7 @@ def home(date_type,time,plots,frame):
             with st.expander(f"{comp} issue descriptions and case titles"):
                 st.write(frame.loc[stat_frame.frame['Primary Components'] == comp][{'Case Title','Issue Description'}])
             with st.expander(f"{comp} case details"):
-                st.write(frame.loc[stat_frame.frame['Primary Components'] == comp])
+                st.write(frame.loc[stat_frame.frame['Primary Components'] == comp][stat_frame.case_detail_columns])
 
 # instantiates a cs_stats object with gathered excel data
 # to create an updated 'aggregate' file, use accompanying 'collect_data.py'   

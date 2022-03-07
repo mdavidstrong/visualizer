@@ -36,6 +36,11 @@ def clean_date(row):
 
 df['cleaned_date'] = df.apply(lambda row: clean_date(row), axis=1)
 
+# create an estimated fix time column
+
+# rename columns
+df = df.rename(columns={"Serial Number (Inventory) (Inventory)":"Serial Number"})
+
 # writes dataframe to new aggregate file
 # write code to automatically append the date??
 df.to_excel('aggregate.xlsx')

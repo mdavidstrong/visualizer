@@ -5,9 +5,9 @@ import numpy as np
 import datetime
 
 #class used to hold dataframes and return various data/subselections
-class cs_stats(object):
+class CSStats(object):
     # list of columns that doesn't include 'index' and 'created on'
-    case_detail_columns = {'Serial Number','Case Number','Case Title','Primary Components','Issue Description','Customer','Dealer','Created By','cleaned_date'}
+    case_detail_columns = ['Serial Number','Case Number','Case Title','Primary Components','Issue Description','Customer','Dealer','Created By','cleaned_date']
 
     def __init__(self, frame):
         self.frame = frame
@@ -257,14 +257,15 @@ def home(date_type,time,plots,frame):
             with st.expander(f"{comp} issue breakdown"):
                 st.write(sort_dict_by_value(stat_frame.desc_stats(frame)[comp], reverse=True))
             with st.expander(f"{comp} issue descriptions and case titles"):
-                st.write(frame.loc[stat_frame.frame['Primary Components'] == comp][{'Case Title','Issue Description'}])
+                st.write(frame.loc[stat_frame.frame['Primary Components'] == comp][['Case Title','Issue Description']])
             with st.expander(f"{comp} case details"):
                 st.write(frame.loc[stat_frame.frame['Primary Components'] == comp][stat_frame.case_detail_columns])
 
-# instantiates a cs_stats object with gathered excel data
+# instantiates a CSStats
+# object with gathered excel data
 # to create an updated 'aggregate' file, use accompanying 'collect_data.py'   
 # aggregate file needs to be in this directory
 df = pd.read_excel('aggregate.xlsx',index_col=[0])
-stat_frame = cs_stats(df)
+stat_frame = CSStats(df)
 
 main()

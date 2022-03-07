@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+from estimated_time import EstimatedTimes
 
 # gets the current working directory and drills into excel_files dir
 # excel_files dir used to keep cwd clean from the large number of cs data from Greg
@@ -37,6 +38,17 @@ def clean_date(row):
 df['cleaned_date'] = df.apply(lambda row: clean_date(row), axis=1)
 
 # create an estimated fix time column
+mytimes = EstimatedTimes('est_fix_time.xlsx')
+def est_time(row):
+    comp = row['Primary Components']
+    issue = row['Issue Description']
+
+    if comp in mytimes.time_map().keys():
+        if issue in mytimes.time_map()[comp].keys():
+            return str(mytimes.time_map()[comp][issue])
+    return 'no time data'
+
+df['est_fix_time'] = df.apply(lambda row: est_time(row), axis=1)
 
 # rename columns
 df = df.rename(columns={"Serial Number (Inventory) (Inventory)":"Serial Number"})

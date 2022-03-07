@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 
 class EstimatedTimes(object):
@@ -21,10 +22,22 @@ class EstimatedTimes(object):
                     time_dict[primary][issue] = time
             else:
                 time_dict[self.time_frame['primary'].iloc[i]] = {}
+        return self.assign_avg_to_na(time_dict)
+
+    def assign_avg_to_na(self,time_map_orig):
+        time_dict = time_map_orig
+        for i in time_dict:
+            time_total = 0
+            issue_count = 0
+            for j in time_dict[i]:
+                if j == 'Not Available':
+                    pass
+                else:
+                    time_total += time_dict[i][j]
+                    issue_count += 1
+            if issue_count == 0:
+                pass
+            else:
+                time_avg = np.round(time_total/issue_count,1)
+                time_dict[i]['Not Available'] = time_avg
         return time_dict
-
-file = 'est_fix_time.xlsx'
-
-my_est_times = EstimatedTimes(file)
-
-print(my_est_times.time_map())

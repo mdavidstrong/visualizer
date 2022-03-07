@@ -120,7 +120,9 @@ def home(date_type,time,plots,frame):
 # object with gathered excel data
 # to create an updated 'aggregate' file, use accompanying 'collect_data.py'   
 # aggregate file needs to be in this directory
-df = pd.read_excel('aggregate.xlsx',index_col=[0])
+aggregate_file = 'aggregate.xlsx'
+df = pd.read_excel(aggregate_file,index_col=[0])
+
 stat_frame = CSStats(df)
 
 main()

@@ -5,7 +5,7 @@ import numpy as np
 #class used to hold dataframes and return various data/subselections
 class CSStats(object):
     # list of columns that doesn't include 'index' and 'created on'
-    case_detail_columns = ['Serial Number','Case Number','Case Title','Primary Components','Issue Description','Customer','Dealer','Created By','cleaned_date']
+    case_detail_columns = ['est_fix_time','Serial Number','Case Number','Case Title','Primary Components','Issue Description','Customer','Dealer','Created By','cleaned_date']
 
     def __init__(self, frame):
         self.frame = frame

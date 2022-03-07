@@ -43,9 +43,8 @@ def est_time(row):
     comp = row['Primary Components']
     issue = row['Issue Description']
 
-    if comp in mytimes.time_map().keys():
-        if issue in mytimes.time_map()[comp].keys():
-            return str(mytimes.time_map()[comp][issue])
+    if issue in mytimes.time_map()[comp].keys():
+        return str(mytimes.time_map()[comp][issue])
     return 'no time data'
 
 df['est_fix_time'] = df.apply(lambda row: est_time(row), axis=1)

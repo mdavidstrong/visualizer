@@ -16,13 +16,11 @@ class EstimatedTimes(object):
             issue = self.time_frame['issue'].iloc[i]
             time = self.time_frame['total time'].iloc[i]
             if primary in time_dict.keys():
-                if issue in time_dict[primary].keys():
-                    pass
-                else:
-                    time_dict[primary][issue] = time
+                time_dict[primary][issue] = time
             else:
-                time_dict[self.time_frame['primary'].iloc[i]] = {}
-        return self.assign_avg_to_na(time_dict)
+                time_dict[primary] = {issue:time}
+        #return self.assign_avg_to_na(time_dict)
+        return time_dict
 
     def assign_avg_to_na(self,time_map_orig):
         time_dict = time_map_orig

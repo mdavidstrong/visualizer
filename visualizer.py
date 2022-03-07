@@ -94,6 +94,8 @@ def home(date_type,time,plots,frame):
             st.write(frame['Case Title'])
         with st.expander(f"case details ( {time} )"):
             st.write(frame[stat_frame.case_detail_columns])
+        with st.expander("comp,issue,time"):
+            st.write(frame[['Primary Components','Issue Description','est_fix_time']])
         
     
     # places gap between col 1 and 3 to serve as a visual division

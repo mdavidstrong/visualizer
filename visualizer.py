@@ -1,65 +1,19 @@
+import datetime
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import streamlit as st
-import numpy as np
-import datetime
 
 from cs_stats import CSStats
-
-# makes the bar chart for components/issues data
-def figure(frame):
-    comps = stat_frame.components(frame)
-    values = stat_frame.values(frame)
-    fig = plt.figure(figsize = (10, 5))
-
-    plt.bar(comps, values)
-    plt.xlabel("Primary Component")
-    plt.ylabel("Number of Cases")
-    plt.xticks(rotation='vertical')
-    
-    st.pyplot(fig)
+from plotting import figure,pie_plot
 
 
-# creates two side by side plots
-# not being used currently
-def double_plot(comp):
-    sub_fig = plt.figure(figsize = (10, 5))
-    #Plot 1
-    data = stat_frame.desc_stats(stat_frame.frame)[comp]
-    labels = list(data.keys())
-    values = list(data.values())
-
-    plt.xlabel("component issues")
-    plt.ylabel("number of issues")
-
-    plt.subplot(1, 2, 1)
-    plt.bar(labels, values)
-    plt.xticks(rotation='vertical')
-
-    #Plot 2
-    x = np.array(values)
-    mylabels = labels
-    plt.subplot(1, 2, 2)
-    plt.pie(x, labels = mylabels)
-
-    st.pyplot(sub_fig)
-
-# makes a pie chart for a given component and time selection
-def pie_plot(comp,frame):
-    fig = plt.figure(figsize = (10, 5))
-
-    data = stat_frame.desc_stats(frame)[comp]
-    pie_labels = list(data.keys())
-    values = np.array(list(data.values()))
-
-    plt.pie(values, labels = pie_labels)
-    st.pyplot(fig)
 
 # sorts a dictionary by its values
 def sort_dict_by_value(d, reverse=False):
     return dict(sorted(d.items(), key = lambda x: x[1], reverse = reverse))
 
-
+# streamlit page
 def main():
     st.set_page_config(layout='wide')
     
@@ -130,7 +84,7 @@ def home(date_type,time,plots,frame):
             st.title(f"{time} case data")
         
         # adds the bar chart of all data in selected time range
-        figure(frame)
+        figure(stat_frame,frame)
         # adds statistics
         st.write(f"number of cases: {len(frame)}")
         st.write(f"average number of issues per component: {round(stat_frame.avg_num_issues(frame),1)}")
@@ -151,7 +105,7 @@ def home(date_type,time,plots,frame):
         # user sets plots to true if they want to see detailed component data
         if plots == True:
             st.title(f"{comp.upper()}")
-            pie_plot(comp,frame)
+            pie_plot(stat_frame,comp,frame)
             # gets the number of issues for specified component in set time range
             stats = stat_frame.comp_stats(frame)[comp]
             st.write(f"number of {comp.upper()} issues: {stats}")

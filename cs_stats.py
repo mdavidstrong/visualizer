@@ -100,3 +100,11 @@ class CSStats(object):
             else:
                 desc_stats[component] = {issue:1}
         return desc_stats
+    
+    # returns total fix time
+    def total_time(self,frame):
+        time = 0
+        for i in frame['est_fix_time']:
+            if i != 'no time data':
+                time += float(i)
+        return round(time,0)

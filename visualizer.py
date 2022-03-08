@@ -88,6 +88,8 @@ def home(date_type,time,plots,frame):
         st.write(f"number of cases: {len(frame)}")
         st.write(f"average number of issues per component: {round(stat_frame.avg_num_issues(frame),1)}")
         st.markdown('Top 5 component issues: -- '+' -- '.join(list(reversed(stat_frame.comp_stats(frame,sort=True).keys()))[:5])+' --')
+        tot_time = stat_frame.total_time(frame)
+        st.write(f"total repair time: {tot_time} hours")
 
         # dropdowns for seeing more data about given frame
         with st.expander(f"case titles ( {time} )"):

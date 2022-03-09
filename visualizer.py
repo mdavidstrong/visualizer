@@ -77,18 +77,18 @@ def home(date_type,time,plots,frame):
         # column 1 title based on time input
         if date_type == 'date range':
             if time == 'all available data':
-                st.title('All available case data')
+                st.title('All available CS data')
             else:
-                st.title(f'Case data from past {time}')
+                st.title(f'CS case data from past {time}')
         else:
             st.title(f"{time} case data")
         
         # adds the bar chart of all data in selected time range
         figure(stat_frame,frame)
         # adds statistics
-        st.write(f"number of cases: {len(frame)}")
+        st.write(f"number of CS cases: {len(frame)}")
         st.write(f"average number of issues per component: {round(stat_frame.avg_num_issues(frame),1)}")
-        st.markdown('Top 5 component issues: -- '+' -- '.join(list(reversed(list(stat_frame.comp_stats(frame,sort=True).keys())))[:5])+' --')
+        st.markdown('Top 5 components: -- '+' -- '.join(list(reversed(list(stat_frame.comp_stats(frame,sort=True).keys())))[:5])+' --')
         tot_time = stat_frame.total_time(frame)
         st.write(f"total repair time: {tot_time} hours")
 
@@ -97,7 +97,7 @@ def home(date_type,time,plots,frame):
             st.write(frame['Case Title'])
         with st.expander(f"case details ( {time} )"):
             st.write(frame[stat_frame.case_detail_columns])
-        with st.expander("comp,issue,time"):
+        with st.expander("Repair times"):
             st.write(frame[['Primary Components','Issue Description','est_fix_time']])
         
         # constant data
@@ -112,9 +112,10 @@ def home(date_type,time,plots,frame):
 
     with col3:
         # user sets plots to true if they want to see detailed component data
-        selected_comp = st.selectbox('Select component',sorted(stat_frame.primary_comps(frame)))
+        with st.expander('Component Detail Selector'):
+            selected_comp = st.selectbox('Select component',sorted(stat_frame.primary_comps(frame)))
         if plots == True:
-            st.title(f"{selected_comp.upper()}")
+            st.title(f"Details for: {selected_comp.upper()}")
             pie_plot(stat_frame,selected_comp,frame)
             # gets the number of issues for specified component in set time range
             stats = stat_frame.comp_stats(frame)[selected_comp]

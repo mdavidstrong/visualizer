@@ -108,3 +108,17 @@ class CSStats(object):
             if i != 'no time data':
                 time += float(i)
         return round(time,0)
+    
+    # returns list of dates that have cs data
+    def dates_with_data(self,sort=True):
+        date_list = []
+        for i in self.frame['cleaned_date']:
+            if i not in date_list:
+                date_list.append(i)
+        if sort:
+            date_list.sort()
+        return date_list
+    
+    def most_recent_date(self):
+        date_list = self.dates_with_data()
+        return date_list[-1]

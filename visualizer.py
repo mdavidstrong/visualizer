@@ -5,6 +5,7 @@ import streamlit as st
 
 from cs_stats import CSStats
 from plotting import figure,pie_plot
+from estimated_time import EstimatedTimes
 
 
 
@@ -16,10 +17,12 @@ def sort_dict_by_value(d, reverse=False):
 def main():
     st.set_page_config(layout='wide')
     
-    date_type = st.sidebar.radio('Date selection', ['single date','date range'])
+
+    st.sidebar.write(f"most recent data from: {stat_frame.most_recent_date()}")
+    date_type = st.sidebar.radio('How would you like to choose the date?', ['date range','single date'])
     
     if date_type == 'single date':
-        date = st.sidebar.date_input("PICK A DATE",max_value=datetime.date.today())
+        date = st.sidebar.date_input("Pick a day",max_value=datetime.date.today())
         # checks for data on selected date
         date_exists = str(date) in stat_frame.frame['cleaned_date'].tolist()
         if date_exists:
@@ -28,7 +31,7 @@ def main():
             st.title('No data for that date')
     else:
         time = st.sidebar.selectbox(
-            "TIME RANGE",
+            "Date Range",
             [
                 "all",
                 "1 week",
@@ -99,6 +102,11 @@ def home(date_type,time,plots,frame):
         with st.expander("comp,issue,time"):
             st.write(frame[['Primary Components','Issue Description','est_fix_time']])
         
+        # constant data
+        st.title('Estimated Repair Time Key')
+        st.write(mytimes.time_frame)
+
+        
     
     # places gap between col 1 and 3 to serve as a visual division
     with col2:
@@ -126,7 +134,9 @@ def home(date_type,time,plots,frame):
 # aggregate file needs to be in this directory
 aggregate_file = 'aggregate.xlsx'
 df = pd.read_excel(aggregate_file,index_col=[0])
-
 stat_frame = CSStats(df)
+
+estimated_fix_time_file = 'est_fix_time.xlsx'
+mytimes = EstimatedTimes(estimated_fix_time_file)
 
 main()

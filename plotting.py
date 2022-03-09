@@ -2,6 +2,18 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import numpy as np
 
+
+# line chart for number of cases over time
+def line_chart(csstats_object,frame):
+    comps = csstats_object.num_cases_per_date().keys()
+    values = csstats_object.num_cases_per_date().values()
+    fig = plt.figure(figsize = (10,5))
+
+    plt.plot(comps, values)
+    plt.xticks(rotation='vertical')
+
+    st.pyplot(fig)
+
 # makes the bar chart for components/issues data
 def figure(csstats_object,frame):
     comps = csstats_object.components(frame)

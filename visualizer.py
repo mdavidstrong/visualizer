@@ -71,8 +71,6 @@ def home(date_type,time,plots,frame):
     # sets the three columns
     # 5,1,5 are the ratio of widths (visuals)
     col1, col2, col3 = st.columns([5,1,5])
-    #creates list of radio buttons for each primary component in selected time frame of data
-    comp = st.sidebar.radio('COMPONENTS',sorted(stat_frame.primary_comps(frame)))
 
     
     with col1:
@@ -114,19 +112,20 @@ def home(date_type,time,plots,frame):
 
     with col3:
         # user sets plots to true if they want to see detailed component data
+        selected_comp = st.selectbox('Select component',sorted(stat_frame.primary_comps(frame)))
         if plots == True:
-            st.title(f"{comp.upper()}")
-            pie_plot(stat_frame,comp,frame)
+            st.title(f"{selected_comp.upper()}")
+            pie_plot(stat_frame,selected_comp,frame)
             # gets the number of issues for specified component in set time range
-            stats = stat_frame.comp_stats(frame)[comp]
-            st.write(f"number of {comp.upper()} issues: {stats}")
+            stats = stat_frame.comp_stats(frame)[selected_comp]
+            st.write(f"number of {selected_comp.upper()} issues: {stats}")
             # dropdowns for various stat breakdowns and frame details
-            with st.expander(f"{comp} issue breakdown"):
-                st.write(sort_dict_by_value(stat_frame.desc_stats(frame)[comp], reverse=True))
-            with st.expander(f"{comp} issue descriptions and case titles"):
-                st.write(frame.loc[stat_frame.frame['Primary Components'] == comp][['Case Title','Issue Description']])
-            with st.expander(f"{comp} case details"):
-                st.write(frame.loc[stat_frame.frame['Primary Components'] == comp][stat_frame.case_detail_columns])
+            with st.expander(f"{selected_comp} issue breakdown"):
+                st.write(sort_dict_by_value(stat_frame.desc_stats(frame)[selected_comp], reverse=True))
+            with st.expander(f"{selected_comp} issue descriptions and case titles"):
+                st.write(frame.loc[stat_frame.frame['Primary Components'] == selected_comp][['Case Title','Issue Description']])
+            with st.expander(f"{selected_comp} case details"):
+                st.write(frame.loc[stat_frame.frame['Primary Components'] == selected_comp][stat_frame.case_detail_columns])
 
 # instantiates a CSStats
 # object with gathered excel data

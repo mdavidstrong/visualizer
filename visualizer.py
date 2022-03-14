@@ -78,7 +78,7 @@ def home(date_type,time,plots,frame):
         if date_type == 'date range':
             if time == 'all available data':
                 st.title('All available CS data')
-                line_chart(stat_frame,frame)
+                #line_chart(stat_frame,frame)
             else:
                 st.title(f'CS case data from past {time}')
         else:

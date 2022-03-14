@@ -4,21 +4,25 @@ from estimated_time import EstimatedTimes
 
 # gets the current working directory and drills into excel_files dir
 # excel_files dir used to keep cwd clean from the large number of cs data from Greg
-cwd = os.path.abspath('')
-excel_files_dir = cwd + '\excel_files'
+""" cwd = os.path.abspath('')
+excel_files_dir = cwd + '\excel_files' """
 # gets the list of files from cwd
-files = os.listdir(excel_files_dir)
+""" files = os.listdir(excel_files_dir) """
 
+# this uses seperated date files from greg
 # creates a new dataframe and appends data for each excel file in 'files'
-df = pd.DataFrame()
+
+""" df = pd.DataFrame()
 for i in files:
     if i.endswith('.xlsx'):
         excel_file = pd.ExcelFile(excel_files_dir + '\\' + i)
         sheets = excel_file.sheet_names
         # only adds the sheet with 'Components and Issues' name
         frame = excel_file.parse(sheet_name='Components and Issues')
-        df = df.append(frame)
+        df = df.append(frame) """
 
+# this uses the new file from stover that has all data already together
+df = pd.read_excel('Components and Issues 03-11-22.xlsx')
 # removes the columns that aren't necessary
 df = df.drop('(Do Not Modify) Case',axis=1)
 df = df.drop('(Do Not Modify) Row Checksum',axis=1)
@@ -42,9 +46,9 @@ mytimes = EstimatedTimes('est_fix_time.xlsx')
 def est_time(row):
     comp = row['Primary Components']
     issue = row['Issue Description']
-
-    if issue in mytimes.time_map()[comp].keys():
-        return str(mytimes.time_map()[comp][issue])
+    if comp in mytimes.time_map().keys():
+        if issue in mytimes.time_map()[comp].keys():
+            return str(mytimes.time_map()[comp][issue])
     return 'no time data'
 
 df['est_fix_time'] = df.apply(lambda row: est_time(row), axis=1)

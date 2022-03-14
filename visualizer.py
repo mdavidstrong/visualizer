@@ -4,7 +4,7 @@ import pandas as pd
 import streamlit as st
 
 from cs_stats import CSStats
-from plotting import figure,pie_plot
+from plotting import figure,pie_plot,line_chart
 from estimated_time import EstimatedTimes
 
 
@@ -78,6 +78,7 @@ def home(date_type,time,plots,frame):
         if date_type == 'date range':
             if time == 'all available data':
                 st.title('All available CS data')
+                #line_chart(stat_frame,frame)
             else:
                 st.title(f'CS case data from past {time}')
         else:
@@ -112,7 +113,7 @@ def home(date_type,time,plots,frame):
 
     with col3:
         # user sets plots to true if they want to see detailed component data
-        with st.expander('Component Detail Selector'):
+        with st.expander('Component Selector'):
             selected_comp = st.selectbox('Select component',sorted(stat_frame.primary_comps(frame)))
         if plots == True:
             st.title(f"Details for: {selected_comp.upper()}")

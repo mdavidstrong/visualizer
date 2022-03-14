@@ -122,3 +122,11 @@ class CSStats(object):
     def most_recent_date(self):
         date_list = self.dates_with_data()
         return date_list[-1]
+    
+    def num_cases_per_date(self):
+        date_list = self.dates_with_data()
+        date_dict = {}
+        for i in date_list:
+            num_cases = len(self.frame.loc[self.frame['cleaned_date'] == i])
+            date_dict[i] = num_cases
+        return date_dict

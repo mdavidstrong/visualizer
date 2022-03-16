@@ -22,7 +22,7 @@ for i in files:
         df = df.append(frame) """
 
 # this uses the new file from stover that has all data already together
-df = pd.read_excel('Components and Issues 03-11-22.xlsx')
+df = pd.read_excel('Components and Issues.xlsx')
 # removes the columns that aren't necessary
 df = df.drop('(Do Not Modify) Case',axis=1)
 df = df.drop('(Do Not Modify) Row Checksum',axis=1)

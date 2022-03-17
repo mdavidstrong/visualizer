@@ -32,7 +32,7 @@ df = df.drop('(Do Not Modify) Modified On',axis=1)
 df = df.reset_index()
 
 # removes the extra index
-df.drop('index',axis=1)
+df = df.drop('index',axis=1)
 
 # create a cleaned date column
 def clean_date(row):

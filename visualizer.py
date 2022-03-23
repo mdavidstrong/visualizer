@@ -101,9 +101,12 @@ def home(date_type,time,plots,frame):
         with st.expander("Repair times"):
             st.write(frame[['Primary Components','Issue Description','est_fix_time']])
         
+        st.write(frame['spa_created_on'])
+
         # constant data
         st.title('Estimated Repair Time Key')
         st.write(mytimes.time_frame)
+
 
         
     
